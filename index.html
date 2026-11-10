@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>n-toku</title>
+<meta name="description" content="n-toku のポートフォリオ。現場と、コードと、音楽を。">
+<style>
+:root{
+  --bg:#07090f; --bg2:#0c1020; --text:#e8ecf6; --muted:#9aa3b8;
+  --line:rgba(255,255,255,.10); --glass:rgba(255,255,255,.045);
+  --c1:#8fd3ff; --c2:#c7a8ff; --c3:#9fffe0;
+  --radius:18px; --max:1080px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:"Hiragino Sans","Yu Gothic UI","Noto Sans JP",system-ui,sans-serif;
+  background:radial-gradient(1200px 700px at 80% -10%,#16204a 0%,transparent 60%),
+             radial-gradient(900px 600px at -10% 30%,#2a1846 0%,transparent 55%),
+             linear-gradient(180deg,var(--bg),var(--bg2));
+  color:var(--text);line-height:1.8;letter-spacing:.02em;min-height:100vh;overflow-x:hidden;
+}
+a{color:inherit}
+#prism{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.55}
+header,main,footer{position:relative;z-index:1}
+
+/* nav */
+nav{position:fixed;top:0;left:0;right:0;z-index:10;display:flex;justify-content:space-between;align-items:center;
+  padding:14px clamp(16px,4vw,40px);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  background:rgba(7,9,15,.55);border-bottom:1px solid var(--line)}
+.logo{font-weight:700;letter-spacing:.12em;text-decoration:none;
+  background:linear-gradient(90deg,var(--c1),var(--c2),var(--c3));-webkit-background-clip:text;background-clip:text;color:transparent}
+nav ul{display:flex;gap:clamp(12px,3vw,28px);list-style:none;font-size:.85rem}
+nav a{text-decoration:none;color:var(--muted);transition:color .2s}
+nav a:hover{color:var(--text)}
+.menu-btn{display:none;background:none;border:1px solid var(--line);color:var(--text);border-radius:10px;padding:6px 10px;cursor:pointer}
+
+section{padding:clamp(80px,12vw,140px) clamp(16px,5vw,40px);max-width:var(--max);margin:0 auto}
+.sec-label{font-size:.75rem;letter-spacing:.3em;color:var(--c1);text-transform:uppercase;margin-bottom:8px}
+h2{font-size:clamp(1.6rem,4vw,2.4rem);font-weight:600;margin-bottom:36px}
+
+/* glass card */
+.glass{position:relative;background:linear-gradient(135deg,rgba(255,255,255,.08),rgba(255,255,255,.02));
+  border:1px solid var(--line);border-radius:var(--radius);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  box-shadow:0 10px 40px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.12);overflow:hidden}
+.glass::before{content:"";position:absolute;inset:-40%;pointer-events:none;
+  background:linear-gradient(115deg,transparent 40%,rgba(255,255,255,.10) 48%,rgba(143,211,255,.10) 50%,transparent 58%);
+  transform:translateX(var(--shine,-30%));transition:transform .8s ease}
+.glass:hover::before{--shine:30%}
+
+/* hero */
+#hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;max-width:var(--max)}
+.crystal{position:absolute;right:clamp(-40px,4vw,60px);top:50%;transform:translateY(-50%);width:clamp(220px,38vw,440px);aspect-ratio:1;pointer-events:none;opacity:.9}
+.crystal svg{width:100%;height:100%;animation:float 9s ease-in-out infinite}
+@keyframes float{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-14px) rotate(3deg)}}
+.hero-name{font-size:clamp(3rem,11vw,7rem);font-weight:700;line-height:1;letter-spacing:.04em;
+  background:linear-gradient(100deg,#fff 10%,var(--c1) 40%,var(--c2) 65%,var(--c3) 90%);background-size:200% auto;
+  -webkit-background-clip:text;background-clip:text;color:transparent;animation:sheen 8s linear infinite}
+@keyframes sheen{to{background-position:200% center}}
+.hero-catch{margin-top:20px;font-size:clamp(1.05rem,2.6vw,1.5rem);color:var(--muted)}
+.hero-lead{margin-top:18px;font-size:clamp(.95rem,2vw,1.08rem);line-height:1.9;opacity:.88;max-width:36em}
+.hero-sub{margin-top:6px;font-size:.75rem;letter-spacing:.3em;color:var(--c1);opacity:.8}
+.hero-visual{margin-top:44px;width:100%;border-radius:20px;overflow:hidden;border:1px solid var(--line);
+  box-shadow:0 24px 60px rgba(0,0,0,.45)}
+.hero-visual img{display:block;width:100%;height:auto}
+.scroll-hint{margin-top:56px;font-size:.75rem;color:var(--muted);letter-spacing:.2em;text-decoration:none;display:inline-flex;gap:10px;align-items:center}
+.scroll-hint::after{content:"";width:40px;height:1px;background:linear-gradient(90deg,var(--c1),transparent)}
+
+/* about */
+.about-text{padding:clamp(22px,4vw,36px);font-size:clamp(.95rem,1.8vw,1.05rem);margin-bottom:48px}
+.timeline{list-style:none;position:relative;padding-left:28px}
+.timeline::before{content:"";position:absolute;left:7px;top:6px;bottom:6px;width:1px;
+  background:linear-gradient(180deg,var(--c1),var(--c2),var(--c3))}
+.timeline li{position:relative;margin-bottom:22px}
+.timeline li::before{content:"";position:absolute;left:-26px;top:22px;width:12px;height:12px;transform:rotate(45deg);
+  background:linear-gradient(135deg,#fff,var(--c1));box-shadow:0 0 12px var(--c1)}
+.timeline .glass{padding:18px 22px}
+.tl-head{font-weight:600;margin-bottom:4px}
+.tl-head span{color:var(--muted);font-weight:400;font-size:.85rem;margin-left:8px}
+.timeline p{color:var(--muted);font-size:.92rem}
+
+/* works */
+.works{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
+.work{display:flex;flex-direction:column}
+.thumb{aspect-ratio:16/9;border-bottom:1px solid var(--line);position:relative;display:grid;place-items:center;
+  background:linear-gradient(135deg,rgba(143,211,255,.12),rgba(199,168,255,.10) 50%,rgba(159,255,224,.08))}
+.thumb svg{width:38%;opacity:.75}
+.thumb .ph{position:absolute;bottom:10px;right:12px;font-size:.7rem;color:var(--muted);letter-spacing:.1em}
+.work-body{padding:20px 22px 24px;flex:1;display:flex;flex-direction:column}
+.badge{align-self:flex-start;font-size:.7rem;padding:3px 10px;border-radius:999px;border:1px solid var(--line);color:var(--c3);margin-bottom:10px}
+.work h3{font-size:1.15rem;margin-bottom:6px}
+.work p{color:var(--muted);font-size:.9rem;flex:1}
+.work a.link{margin-top:14px;align-self:flex-start;font-size:.85rem;color:var(--c1);text-decoration:none;border-bottom:1px solid rgba(143,211,255,.4)}
+.work a.link:hover{border-color:var(--c1)}
+
+/* contact */
+.contact{padding:clamp(28px,5vw,48px);text-align:center}
+.contact p{color:var(--muted);margin-bottom:24px}
+.mail-btn{display:inline-block;padding:14px 32px;border-radius:999px;text-decoration:none;font-weight:600;letter-spacing:.05em;
+  color:#07090f;background:linear-gradient(100deg,var(--c1),var(--c2),var(--c3));box-shadow:0 0 30px rgba(143,211,255,.35);transition:transform .2s,box-shadow .2s}
+.mail-btn:hover{transform:translateY(-2px);box-shadow:0 0 44px rgba(199,168,255,.5)}
+.mail-addr{display:block;margin-top:14px;font-size:.85rem;color:var(--muted)}
+
+footer{text-align:center;padding:40px 16px;color:var(--muted);font-size:.75rem;border-top:1px solid var(--line)}
+
+/* reveal */
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .9s ease,transform .9s ease}
+.reveal.in{opacity:1;transform:none}
+
+@media (max-width:760px){
+  .works{grid-template-columns:1fr}
+  .menu-btn{display:block}
+  nav ul{position:absolute;top:100%;right:12px;flex-direction:column;gap:14px;padding:18px 22px;border-radius:14px;
+    background:rgba(12,16,32,.95);border:1px solid var(--line);display:none}
+  nav ul.open{display:flex}
+  .crystal{opacity:.35;right:-60px}
+}
+@media (prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important}
+  .reveal{opacity:1;transform:none}
+}
+</style>
+</head>
+<body>
+<canvas id="prism" aria-hidden="true"></canvas>
+
+<nav>
+  <a href="#hero" class="logo">n-toku</a>
+  <button class="menu-btn" aria-label="メニュー" aria-expanded="false">≡</button>
+  <ul>
+    <li><a href="#about">About</a></li>
+    <li><a href="#works">Works</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<main>
+  <!-- Hero -->
+  <section id="hero" aria-label="光の断面">
+    <p class="hero-sub">光の断面</p>
+    <h1 class="hero-name">n-toku</h1>
+    <p class="hero-catch">現場と、コードと、音楽を。</p>
+    <p class="hero-lead">プログラムは素人です。AIにハマって、触って、試して、直して——気づいたら、こんなものまで作れるようになっていました。</p>
+    <div class="hero-visual">
+      <img src="assets/hero-an3-equalizer.jpg" alt="音の波形のように並んだ結晶片を光が抜けるキービジュアル">
+    </div>
+    <a href="#about" class="scroll-hint">SCROLL</a>
+  </section>
+
+  <!-- About -->
+  <section id="about">
+    <p class="sec-label reveal">About</p>
+    <h2 class="reveal">n-tokuについて</h2>
+    <div class="glass about-text reveal">
+      <p>Webサイトの運用・制作ディレクションに約10年、機械設計に5年（製造ラインの立ち上げと3D CADによる治具設計）。現場の仕事と「作ること」の両方を渡ってきた経験を土台に、現在はトラックドライバーとして働きながら、AIに出会い、趣味として音楽ソフトウェアとWebアプリを個人開発しています。</p>
+      <p style="margin-top:14px">ちなみに、コードはほとんど書けません。書いているのはAIです。私の役目は「こんなのが欲しい」を伝えて、試して、「なんか違う」と言って、また試すこと。AIの楽しさにハマって触り続けていたら、DAWも業務アプリも形になっていました。</p>
+    </div>
+    <ol class="timeline">
+      <li class="reveal"><div class="glass">
+        <div class="tl-head">サービス業<span>約10年</span></div>
+        <p>自社Webサイトの運用担当。サイト更新・変更時の制作会社との折衝、新店舗オープン時のホームページ立ち上げ（制作は外注し、ディレクションを担当）、更新に伴う画像編集・バナー制作。</p>
+      </div></li>
+      <li class="reveal"><div class="glass">
+        <div class="tl-head">設計会社<span>約5年</span></div>
+        <p>機械設計。電機メーカーへ派遣。スマートフォン・ディスプレイの製造ライン立ち上げに参加し、ラインで使用する治具を3D CADで設計。</p>
+      </div></li>
+      <li class="reveal"><div class="glass">
+        <div class="tl-head">現在</div>
+        <p>トラックドライバー。本業の傍ら、Zion DAWやAI切り抜きツールなどを個人開発。</p>
+      </div></li>
+    </ol>
+  </section>
+
+  <!-- Works -->
+  <section id="works">
+    <p class="sec-label reveal">Works</p>
+    <h2 class="reveal">つくったもの</h2>
+    <p class="reveal" style="color:var(--muted);margin-top:-20px;margin-bottom:32px">ぜんぶ、AIと一緒に作ったもの。素人が本気でハマると、ここまで来ます。</p>
+    <div class="works">
+      <article class="glass work reveal">
+        <div class="thumb" aria-hidden="true">
+          <svg viewBox="0 0 100 60" fill="none" stroke="#8fd3ff" stroke-width="2"><path d="M5 30h10l5-18 8 36 7-26 6 14 5-8h10l4-10 6 20 5-8h24"/></svg>
+          <span class="ph">IMAGE PLACEHOLDER</span>
+        </div>
+        <div class="work-body">
+          <span class="badge">開発中</span>
+          <h3>Zion DAW</h3>
+          <p>AIと一緒に作っている、音楽制作ソフトです。AIが曲をボーカル・ドラム・ベース・その他に分ける「ステム分離」も入っています。「こんなのが欲しい」を伝えては試して、直して、を繰り返して開発中です。</p>
+        </div>
+      </article>
+      <article class="glass work reveal">
+        <div class="thumb" aria-hidden="true">
+          <svg viewBox="0 0 100 60" fill="none" stroke="#c7a8ff" stroke-width="2"><rect x="10" y="8" width="80" height="44" rx="4"/><path d="M30 20v20M70 20v20" stroke-dasharray="3 3"/><path d="M44 22l12 8-12 8z" fill="#c7a8ff" stroke="none"/></svg>
+          <span class="ph">IMAGE PLACEHOLDER</span>
+        </div>
+        <div class="work-body">
+          <span class="badge">運用中</span>
+          <h3>AI切り抜きツール</h3>
+          <p>AIと一緒に作っている、動画の切り抜きツールです。長い動画の見どころをAIが選んで縦型クリップに切り抜き、字幕と、Xに投稿する文まで作ります。いまは「お試しサービス」として運用中です。</p>
+        </div>
+      </article>
+      <!-- 現場マップ：使用許可がおりるまで非公開（2026-11-10 決定）。許可が出たらコメントを外し、バッジを「業務で使用中」に切り替えて公開する。
+      <article class="glass work reveal">
+        <div class="thumb" aria-hidden="true">
+          <svg viewBox="0 0 100 60" fill="none" stroke="#9fffe0" stroke-width="2"><path d="M10 50l20-8 20 8 20-8 20 8V12l-20 8-20-8-20 8-20-8z"/><circle cx="50" cy="28" r="5"/><path d="M50 33v6"/></svg>
+          <span class="ph">DUMMY SCREEN</span>
+        </div>
+        <div class="work-body">
+          <span class="badge">実績紹介</span>
+          <h3>現場マップ</h3>
+          <p>自分の業務のために作った、現場情報のマップツール。※画面はダミーです。</p>
+        </div>
+      </article>
+      -->
+      <article class="glass work reveal">
+        <div class="thumb" aria-hidden="true">
+          <svg viewBox="0 0 100 60" fill="none" stroke="#8fd3ff" stroke-width="2"><circle cx="50" cy="30" r="20"/><circle cx="50" cy="30" r="5"/><path d="M50 10a20 20 0 0 1 20 20" stroke="#c7a8ff"/></svg>
+          <span class="ph">IMAGE PLACEHOLDER</span>
+        </div>
+        <div class="work-body">
+          <span class="badge">Music</span>
+          <h3>Music</h3>
+          <p>レゲエを中心に、曲づくりも楽しんでいます。音源や活動のまとめは ZION ONLINE に置いています。</p>
+          <a class="link" href="https://zion-online.com" target="_blank" rel="noopener">ZION ONLINE →</a>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact">
+    <p class="sec-label reveal">Contact</p>
+    <h2 class="reveal">話す、つながる</h2>
+    <div class="glass contact reveal">
+      <p>エンジニアではないので、ふつうの開発のご依頼は受けられません。でも「AIをガンガン使っていい」が前提なら、仕事の相談も受けます。「こんなものが欲しい」を、一緒に形にしましょう。制作のこと、音楽のこともお気軽にどうぞ。</p>
+      <a class="mail-btn" href="mailto:info@n-toku.com">メールを送る</a>
+      <span class="mail-addr">info@n-toku.com</span>
+    </div>
+  </section>
+</main>
+
+<footer>© n-toku</footer>
+
+<script>
+(()=>{
+  // mobile menu
+  const btn=document.querySelector('.menu-btn'),ul=document.querySelector('nav ul');
+  btn.addEventListener('click',()=>{const o=ul.classList.toggle('open');btn.setAttribute('aria-expanded',o)});
+  ul.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{ul.classList.remove('open');btn.setAttribute('aria-expanded',false)}));
+
+  // reveal on scroll
+  const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.15});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+  // light shards background (lightweight canvas)
+  const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const cv=document.getElementById('prism'),ctx=cv.getContext('2d');
+  let W,H,dpr,shards=[];
+  const cols=['143,211,255','199,168,255','159,255,224','255,255,255'];
+  function resize(){
+    dpr=Math.min(devicePixelRatio||1,2);W=innerWidth;H=innerHeight;
+    cv.width=W*dpr;cv.height=H*dpr;cv.style.width=W+'px';cv.style.height=H+'px';ctx.setTransform(dpr,0,0,dpr,0,0);
+    const n=Math.round(Math.min(26,W/50));
+    shards=Array.from({length:n},()=>({x:Math.random()*W,y:Math.random()*H,s:20+Math.random()*70,
+      r:Math.random()*Math.PI,vr:(Math.random()-.5)*.002,vy:-.08-Math.random()*.15,
+      c:cols[Math.floor(Math.random()*cols.length)],a:.04+Math.random()*.08}));
+  }
+  function draw(){
+    ctx.clearRect(0,0,W,H);ctx.globalCompositeOperation='lighter';
+    for(const p of shards){
+      ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.r);
+      const g=ctx.createLinearGradient(-p.s,0,p.s,0);
+      g.addColorStop(0,`rgba(${p.c},0)`);g.addColorStop(.5,`rgba(${p.c},${p.a})`);g.addColorStop(1,`rgba(${p.c},0)`);
+      ctx.fillStyle=g;ctx.beginPath();ctx.moveTo(0,-p.s);ctx.lineTo(p.s*.45,0);ctx.lineTo(0,p.s*.9);ctx.lineTo(-p.s*.35,0);ctx.closePath();ctx.fill();
+      ctx.restore();
+      if(!reduce){p.y+=p.vy;p.r+=p.vr;if(p.y<-p.s){p.y=H+p.s;p.x=Math.random()*W}}
+    }
+    if(!reduce)requestAnimationFrame(draw);
+  }
+  addEventListener('resize',()=>{resize();if(reduce)draw()});
+  resize();draw();
+})();
+</script>
+</body>
+</html>
